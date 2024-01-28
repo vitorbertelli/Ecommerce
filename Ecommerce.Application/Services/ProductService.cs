@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.DTOs;
+using Ecommerce.Application.DTOs.Request;
+using Ecommerce.Application.DTOs.Response;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
@@ -16,10 +18,11 @@ public class ProductService : IProductService
         _productRepository = productRepository;
         _mapper = mapper;
     }
-    public async Task Create(ProductDTO productDto)
+    public async Task<ProductResponse> Create(ProductRequest request)
     {
-        var product = _mapper.Map<Product>(productDto);
+        var product = _mapper.Map<Product>(request);
         await _productRepository.Create(product);
+        return _mapper.Map<ProductResponse>(product);
     }
 
     public async Task Delete(int id)
@@ -28,21 +31,22 @@ public class ProductService : IProductService
         await _productRepository.Delete(product);
     }
 
-    public async Task<IEnumerable<ProductDTO>> GetAll()
+    public async Task<IEnumerable<ProductResponse>> GetAll()
     {
         var products = await _productRepository.GetAll();
-        return _mapper.Map<IEnumerable<ProductDTO>>(products);
+        return _mapper.Map<IEnumerable<ProductResponse>>(products);
     }
 
-    public async Task<ProductDTO> GetById(int id)
+    public async Task<ProductResponse> GetById(int id)
     {
         var product = await _productRepository.GetById(id);
-        return _mapper.Map<ProductDTO>(product);
+        return _mapper.Map<ProductResponse>(product);
     }
 
-    public async Task Update(ProductDTO productDto)
+    public async Task<ProductResponse> Update(ProductRequest request)
     {
-        var product = _mapper.Map<Product>(productDto);
+        var product = _mapper.Map<Product>(request);
         await _productRepository.Update(product);
+        return _mapper.Map<ProductResponse>(product);
     }
 }

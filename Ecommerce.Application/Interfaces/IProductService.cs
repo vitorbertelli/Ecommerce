@@ -1,12 +1,14 @@
-﻿using Ecommerce.Application.DTOs;
+﻿using Ecommerce.Application.DTOs.Request;
+using Ecommerce.Application.DTOs.Response;
+using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Interfaces;
 
 public interface IProductService
 {
-    Task<IEnumerable<ProductDTO>> GetAll();
-    Task<ProductDTO> GetById(int id);
-    Task Create(ProductDTO productDto);
-    Task Update(ProductDTO productDto);
+    Task<IEnumerable<ProductResponse>> GetAll();
+    Task<ProductResponse> GetById(int id);
+    Task<ProductResponse> Create(ProductRequest productRequest);
+    Task<ProductResponse> Update(ProductRequest productRequest);
     Task Delete(int id);
 }

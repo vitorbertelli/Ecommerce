@@ -29,12 +29,12 @@ public class ProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>> GetAll()
     {
-        return await _productContext.Products.ToListAsync();
+        return await _productContext.Products.Include(p => p.Images).ToListAsync();
     }
 
     public async Task<Product> GetById(int id)
     {
-        return await _productContext.Products.FindAsync(id);
+        return await _productContext.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<Product> Update(Product product)

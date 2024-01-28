@@ -8,8 +8,8 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
 {
     public void Configure(EntityTypeBuilder<Image> builder)
     {
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Url).HasMaxLength(250).IsRequired();
-        builder.HasOne(x => x.Product).WithMany(x => x.Images).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Cascade);
+        builder.HasKey(i => i.Id);
+        builder.Property(i => i.Url).HasMaxLength(250).IsRequired();
+        builder.HasOne(i => i.Product).WithMany(p => p.Images).HasForeignKey(i => i.ProductId).OnDelete(DeleteBehavior.Cascade);
     }
 }

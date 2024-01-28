@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Ecommerce.Application.DTOs;
+using Ecommerce.Application.DTOs.Request;
+using Ecommerce.Application.DTOs.Response;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
@@ -16,10 +17,11 @@ public class ImageService : IImageService
         _imageRepository = imageRepository;
         _mapper = mapper;
     }
-    public async Task Create(ImageDTO imageDto)
+    public async Task<ImageResponse> Create(ImageRequest request)
     {
-        var image = _mapper.Map<Image>(imageDto);
+        var image = _mapper.Map<Image>(request);
         await _imageRepository.Create(image);
+        return _mapper.Map<ImageResponse>(image);
     }
 
     public async Task Delete(int id)
@@ -28,21 +30,22 @@ public class ImageService : IImageService
         await _imageRepository.Delete(image);
     }
 
-    public async Task<IEnumerable<ImageDTO>> GetAll()
+    public async Task<IEnumerable<ImageResponse>> GetAll()
     {
         var images = await _imageRepository.GetAll();
-        return _mapper.Map<IEnumerable<ImageDTO>>(images);
+        return _mapper.Map<IEnumerable<ImageResponse>>(images);
     }
 
-    public async Task<ImageDTO> GetById(int id)
+    public async Task<ImageResponse> GetById(int id)
     {
         var image = await _imageRepository.GetById(id);
-        return _mapper.Map<ImageDTO>(image);
+        return _mapper.Map<ImageResponse>(image);
     }
 
-    public async Task Update(ImageDTO imageDto)
+    public async Task<ImageResponse> Update(ImageRequest request)
     {
-        var image = _mapper.Map<Image>(imageDto);
+        var image = _mapper.Map<Image>(request);
         await _imageRepository.Update(image);
+        return _mapper.Map<ImageResponse>(image);
     }
 }

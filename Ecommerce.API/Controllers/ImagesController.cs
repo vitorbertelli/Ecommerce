@@ -1,4 +1,6 @@
 ﻿using Ecommerce.Application.DTOs;
+using Ecommerce.Application.DTOs.Request;
+using Ecommerce.Application.DTOs.Response;
 using Ecommerce.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +18,7 @@ public class ImagesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ImageDTO>>> GetAll()
+    public async Task<ActionResult<IEnumerable<ImageResponse>>> GetAll()
     {
         var images = await _imageService.GetAll();
         if (images == null) return NotFound("Images not found");
@@ -24,7 +26,7 @@ public class ImagesController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<ImageDTO>> GetById(int id)
+    public async Task<ActionResult<ImageResponse>> GetById(int id)
     {
         var image = await _imageService.GetById(id);
         if (image == null) return NotFound("Image not found");
@@ -32,20 +34,19 @@ public class ImagesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Post([FromBody] ImageDTO imageDto)
+    public async Task<ActionResult<ImageResponse>> Post([FromBody] ImageRequest request)
     {
-        if (imageDto == null) return BadRequest("Invalid Data");
-        await _imageService.Create(imageDto);
-        return new CreatedAtRouteResult("GetById", new { id = imageDto.Id }, imageDto);
+        if (request == null) return BadRequest("Invalid Data");
+        var response = await _imageService.Create(request);
+        return Ok(response);
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> Put(int id, [FromBody] ImageDTO imageDto)
+    public async Task<ActionResult<ImageResponse>> Put(int id, [FromBody] ImageRequest request)
     {
-        if (imageDto == null) return BadRequest("Invalid Data");
-        if (id != imageDto.Id) return BadRequest("Invalid Id");
-        await _imageService.Update(imageDto);
-        return Ok(imageDto);
+        if (request == null) return BadRequest("Invalid Data");
+        var response = await _imageService.Update(request);
+        return Ok(response);
     }
 
     [HttpDelete("{id:int}")]

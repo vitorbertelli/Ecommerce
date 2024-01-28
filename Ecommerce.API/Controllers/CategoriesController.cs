@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ecommerce.Application.DTOs;
+﻿using Ecommerce.Application.DTOs.Request;
+using Ecommerce.Application.DTOs.Response;
 using Ecommerce.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.API.Controllers;
 
@@ -16,7 +17,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetAll()
+    public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetAll()
     {
         var categories = await _categoryService.GetAll();
         if (categories == null) return NotFound("Categories not found.");
@@ -24,7 +25,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<CategoryDTO>> GetById(int id)
+    public async Task<ActionResult<CategoryResponse>> GetById(int id)
     {
         var category = await _categoryService.GetById(id);
         if (category == null) return NotFound("Category not found.");
@@ -32,20 +33,19 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Post([FromBody] CategoryDTO categoryDto)
+    public async Task<ActionResult<CategoryResponse>> Post([FromBody] CategoryRequest request)
     {
-        if (categoryDto == null) return BadRequest("Invalid data.");
-        await _categoryService.Create(categoryDto);
-        return new CreatedAtRouteResult("GetById", new { id = categoryDto.Id }, categoryDto);
+        if (request == null) return BadRequest("Invalid data.");
+        var response = await _categoryService.Create(request);
+        return Ok(response);
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> Put(int id, [FromBody] CategoryDTO categoryDto)
+    public async Task<ActionResult<CategoryResponse>> Put(int id, [FromBody] CategoryRequest request)
     {
-        if (categoryDto == null) return BadRequest("Invalid data.");
-        if (id != categoryDto.Id) return BadRequest("Invalid id.");
-        await _categoryService.Update(categoryDto);
-        return Ok(categoryDto);
+        if (request == null) return BadRequest("Invalid data.");
+        var response = await _categoryService.Update(request);
+        return Ok(response);
     }
 
     [HttpDelete("{id:int}")]

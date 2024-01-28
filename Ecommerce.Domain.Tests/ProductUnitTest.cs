@@ -55,17 +55,31 @@ public class ProductUnitTest
         action.Should().NotThrow<Exception>();
     }
 
-    [Fact(DisplayName = "Create Prudoct With Negative Price Value")]
+    [Fact(DisplayName = "Create Product With Negative Price Value")]
     public void CreateProduct_WithNegativePriceValue_ExceptionInvalidPrice()
     {
         Action action = () => new Product(1, "Product Name", -9.99m, 99);
         action.Should().Throw<Exception>().WithMessage("Price cannot be negative or null.");
     }
 
-    [Fact(DisplayName = "Create Prudoct With Negative Stock Value")]
+    [Fact(DisplayName = "Create Product With Zero Price Value")]
+    public void CreateProduct_WithZeroPriceValue_ResultObjectValidState()
+    {
+        Action action = () => new Product(1, "Product Name", 0, 99);
+        action.Should().NotThrow<Exception>();
+    } 
+
+    [Fact(DisplayName = "Create Product With Negative Stock Value")]
     public void CreateProduct_WithNegativeStockValue_ExceptionInvalidStock()
     {
         Action action = () => new Product(1, "Product Name", 9.99m, -99);
         action.Should().Throw<Exception>().WithMessage("Stock cannot be negative or null.");
+    }
+
+    [Fact(DisplayName = "Create Product With Zero Stock Value")]
+    public void CreateProduct_WithZeroStockValue_ResultObjectValidState()
+    {
+        Action action = () => new Product(1, "Product Name", 9.99m, 0);
+        action.Should().NotThrow<Exception>();
     }
 }

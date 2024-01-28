@@ -8,8 +8,8 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
     {
-        builder.HasKey(x => x.Id);
-        builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
+        builder.HasKey(c => c.Id);
+        builder.Property(c => c.Name).HasMaxLength(50).IsRequired();
 
         builder.HasData(
             new Category(1, "Tênis"),

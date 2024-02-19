@@ -44,6 +44,7 @@ public class CategoriesController : ControllerBase
     public async Task<ActionResult<CategoryResponse>> Put(int id, [FromBody] CategoryRequest request)
     {
         if (request == null) return BadRequest("Invalid data.");
+        if (id != request.Id) return BadRequest("Invalid data.");
         var response = await _categoryService.Update(request);
         return Ok(response);
     }

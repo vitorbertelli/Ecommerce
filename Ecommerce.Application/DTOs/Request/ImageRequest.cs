@@ -5,6 +5,7 @@ namespace Ecommerce.Application.DTOs.Request;
 
 public class ImageRequest
 {
+    public int Id { get; set; }
     [Required(ErrorMessage = "Invalid url. Url is required.")]
     [MaxLength(250, ErrorMessage = "Url length cannot exceed 250 characters.")]
     [DisplayName("Image Url")]

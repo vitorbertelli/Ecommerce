@@ -45,6 +45,7 @@ public class ImagesController : ControllerBase
     public async Task<ActionResult<ImageResponse>> Put(int id, [FromBody] ImageRequest request)
     {
         if (request == null) return BadRequest("Invalid Data");
+        if (id != request.Id) return BadRequest("Invalid data.");
         var response = await _imageService.Update(request);
         return Ok(response);
     }

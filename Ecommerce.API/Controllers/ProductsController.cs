@@ -46,6 +46,7 @@ public class ProductsController : ControllerBase
     public async Task<ActionResult<ProductResponse>> Put(int id, [FromBody] ProductRequest request)
     {
         if (request == null) return BadRequest("Invalid Data");
+        if (id != request.Id) return BadRequest("Invalid data.");
         await _productService.Update(request);
         return Ok(request);
     }
